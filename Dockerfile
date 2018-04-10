@@ -1,19 +1,24 @@
-FROM bigtruedata/scala:latest
+FROM openjdk:8-alpine
 
-# Install sbt
 ENV SBT_VERSION 1.1.4
-RUN \
-  curl -L -o sbt-$SBT_VERSION.deb https://dl.bintray.com/sbt/debian/sbt-$SBT_VERSION.deb && \
-  dpkg -i sbt-$SBT_VERSION.deb && \
-  rm sbt-$SBT_VERSION.deb && \
-  apt-get update && \
-  apt-get install sbt && \
-  sbt sbtVersion
 
-# installing aws cli
-RUN apt-get update -q
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy python-pip groff-base
-RUN pip install awscli
+# Build dependencies
+RUN apk --no-cache update
+RUN apk upgrade
+RUN apk add bash
+RUN apk add --no-cache curl
 
-# Define working directory
-WORKDIR /root
+# Installing sbt
+RUN curl -L -o sbt-$SBT_VERSION.tgz https://github.com/sbt/sbt/releases/download/v1.1.4/sbt-$SBT_VERSION.tgz
+RUN tar -zxvf sbt-$SBT_VERSION.tgz
+
+ENV SBT_HOME=/sbt
+ENV PATH $PATH:$SBT_HOME/bin
+
+# Bootstrapping SBT
+RUN sbt clean
+
+# Installing AWSCLI
+RUN apk --no-cache add python py-pip py-setuptools ca-certificates curl groff less && \
+    pip --no-cache-dir install awscli && \
+    rm -rf /var/cache/apk/*
