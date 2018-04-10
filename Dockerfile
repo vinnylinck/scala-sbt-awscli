@@ -1,7 +1,7 @@
 FROM bigtruedata/scala:latest
 
 # Install sbt
-ENV SBT_VERSION 1.0.0
+ENV SBT_VERSION 1.1.4
 RUN \
   curl -L -o sbt-$SBT_VERSION.deb https://dl.bintray.com/sbt/debian/sbt-$SBT_VERSION.deb && \
   dpkg -i sbt-$SBT_VERSION.deb && \
