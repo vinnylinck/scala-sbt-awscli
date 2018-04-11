@@ -15,6 +15,9 @@ RUN tar -zxvf sbt-$SBT_VERSION.tgz
 ENV SBT_HOME=/sbt
 ENV PATH $PATH:$SBT_HOME/bin
 
+# Bootstrapping SBT
+RUN sbt clean
+
 # Installing AWSCLI
 RUN apk --no-cache add python py-pip py-setuptools ca-certificates curl groff less && \
     pip install --upgrade pip && \
