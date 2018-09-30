@@ -1,6 +1,6 @@
 FROM openjdk:8-alpine
 
-ENV SBT_VERSION 1.1.4
+ENV SBT_VERSION 1.2.3
 
 # Build dependencies
 RUN apk --no-cache update
@@ -9,7 +9,7 @@ RUN apk add bash
 RUN apk add --no-cache curl
 
 # Installing sbt
-RUN curl -L -o sbt-$SBT_VERSION.tgz https://github.com/sbt/sbt/releases/download/v1.1.4/sbt-$SBT_VERSION.tgz
+RUN curl -L -o sbt-$SBT_VERSION.tgz https://github.com/sbt/sbt/releases/download/v$SBT_VERSION/sbt-$SBT_VERSION.tgz
 RUN tar -zxvf sbt-$SBT_VERSION.tgz
 
 ENV SBT_HOME=/sbt
